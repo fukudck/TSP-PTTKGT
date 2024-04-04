@@ -33,5 +33,6 @@
   <ItemGroup>
     <Text Include="fri26_d.txt" />
     <Text Include="simple_dataset.txt" />
+    <Text Include="p01_d.txt" />
   </ItemGroup>
 </Project>

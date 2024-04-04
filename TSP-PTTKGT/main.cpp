@@ -14,11 +14,11 @@ int main() {
 
 //	tsp1.printTSPGraph();//Print
 
-//	cout << endl << tsp1.cities_num;
+	cout << "So thanh pho: " << tsp1.cities_num << endl;
 
 	int start = 0;
 
-	cout << "\nMinCost =  " << tsp1.BruteForce(start);
+	tsp1.BruteForce(start);
 
 
 	file.close();

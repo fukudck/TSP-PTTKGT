@@ -1,6 +1,9 @@
 #include "TSP.h"
 #include <iostream>
 #include <sstream>
+#include <chrono> 
+#include <iomanip>
+using namespace std::chrono;
 
 TSP::TSP()
 {
@@ -25,47 +28,71 @@ void TSP::importTSPDataSet(ifstream& file)
     
 }
 
-int TSP::BruteForce(int start)
+void TSP::BruteForce(int start)
 {
     //Pre-Process
     vector<int> path; path.push_back(start);
-
     int minCost = INT_MAX;
-    int result = BruteForceProcess(path, start, 0, minCost);
-    vector<int> solution_list;
-    //cout << "Path: ";
-    //for (auto i : path) {
-    //    cout << i << " ";
-    //}
-    return result;
+    vector<vector<int>> allPaths;
+    vector<int> pathCosts;
+
+
+    auto start_time = high_resolution_clock::now();
+    BruteForceProcess(path, start, 0, minCost, allPaths, pathCosts);
+    auto stop_time = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop_time - start_time);
+    float time = (duration.count()) / (1e+9);
+
+    int sumOfMinPath = 0;
+    if (!pathCosts.empty()) {
+        sumOfMinPath = *min_element(pathCosts.begin(), pathCosts.end());
+    }
+
+    cout << "Cac nghiem va tong tung nghiem:\n";
+    for (int i = 0; i < allPaths.size(); i++) {
+
+        if (pathCosts[i] == sumOfMinPath) { //Chi in nghiem, chinh thanh true de liet ke danh sach path co the
+            cout << "Nghiem " << i + 1 << ": ";
+            for (int j : allPaths[i]) {
+                cout << j << " ";
+            }
+            cout << start;
+            cout << " - Tong: " << pathCosts[i] << endl;
+        }
+    }
+    
+    cout << "Tong chi phi nho nhat la: " << sumOfMinPath << endl;
+    
+    cout << "Time : " << std::fixed << std::setprecision(7) << time << " s" << endl;
 }
 
-int TSP::BruteForceProcess(vector<int>& path, int start, int cost, int& minCost)
+void TSP::BruteForceProcess(vector<int>& path, int start, int cost, int& minCost, vector<vector<int>>& allPaths, vector<int>& pathCosts)
 {
+    
     if (path.size() == cities_num) {
         cost += graph[path.back()][start];
         minCost = min(minCost, cost);
-        return minCost;
+        allPaths.push_back(path);
+        pathCosts.push_back(cost);
+        return;
     }
 
     for (int i = 0; i < cities_num; i++) {
         if (find(path.begin(), path.end(), i) == path.end()) {
             path.push_back(i);
-            for (auto i : path) {
-                cout << i << " ";
-            }
-            cout << endl;
             cost += graph[path[path.size() - 2]][i];
 
-            BruteForceProcess( path, start, cost, minCost);
+            BruteForceProcess(path, start, cost, minCost, allPaths, pathCosts);
 
             cost -= graph[path[path.size() - 2]][i];
             path.pop_back();
         }
     }
+}
 
-    return minCost;
-
+void TSP::Greedy(int start)
+{
+    
 }
 
 
