@@ -92,7 +92,59 @@ void TSP::BruteForceProcess(vector<int>& path, int start, int cost, int& minCost
 
 void TSP::Greedy(int start)
 {
+    //Pre-Process
+    vector<int> visited;
+    visited.resize(cities_num);
+    int cost = 0;
+    cout << "Con duong di ngan nhat la: ";
+
+    auto start_time = high_resolution_clock::now();
+
+    GreedyProcess(start, visited, cost);
+
+    auto stop_time = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop_time - start_time);
+    float time = (duration.count()) / (1e+9);
     
+    cout << "\nChi phi thap nhat la: "; cout << cost << endl;
+    cout << "Time : " << std::fixed << std::setprecision(7) << time << " s" << endl;
+
+}
+
+void TSP::GreedyProcess(int start, vector<int>& visited, int& cost)
+{
+    /*
+    * Visited: danh dau dinh da vieng tham
+    * 1 = true, 0 = false
+    */
+    int u = INT_MAX;
+    int path = INT_MAX;
+
+    visited[start] = 1;
+
+    //In ra duong di
+    cout << start + 1 << " ";
+
+    //kiem tra chi phi thap nhat, bien k duoc xem la thanh pho tiep theo
+    for (int k = 0; k < cities_num; k++) {
+        if ((graph[start][k] != 0) && (visited[k] == 0)) {
+            if (graph[start][k] < path) {
+                path = graph[start][k];
+            }
+            u = k; // u la thanh pho co khoang cach gan nhat
+        }
+    }
+    if (path != INT_MAX) {
+        cost = cost + path;
+    }
+    if (u == INT_MAX) {
+        u = 0;
+        cout << u + 1;
+        cost = cost + graph[start][u];
+        return;
+    }
+    GreedyProcess(u, visited, cost);
+
 }
 
 

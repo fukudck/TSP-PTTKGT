@@ -12,10 +12,11 @@ public:
 
 	void importTSPDataSet(ifstream& file);
 
-	void BruteForce(int start);//Not complete
-	void BruteForceProcess(vector<int>& path, int start, int cost, int& minCost, vector<vector<int>>& allPaths, vector<int>& pathCosts); //Not complete
+	void BruteForce(int start);
+	void BruteForceProcess(vector<int>& path, int start, int cost, int& minCost, vector<vector<int>>& allPaths, vector<int>& pathCosts);
 
 	void Greedy(int start);
+	void GreedyProcess(int start, vector<int>& visited, int& cost);
 	
 
 	//Test Func

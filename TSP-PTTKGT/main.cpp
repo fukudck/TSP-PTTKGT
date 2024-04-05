@@ -4,7 +4,7 @@ using namespace std;
 
 
 int main() {
-	ifstream file("simple_dataset.txt");// Dataset file
+	ifstream file("fri26_d.txt");// Dataset file
 	if (!file.is_open()) {
 		cout << "File can't open" << endl;
 		return 1;
@@ -18,7 +18,9 @@ int main() {
 
 	int start = 0;
 
-	tsp1.BruteForce(start);
+//	tsp1.BruteForce(start);
+
+	tsp1.Greedy(start);
 
 
 	file.close();
