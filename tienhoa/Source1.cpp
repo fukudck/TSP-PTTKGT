@@ -172,16 +172,6 @@ int main() {
         // Sắp xếp quần thể theo chi phí
         sort(population.begin(), population.end(), comparePaths);
 
-        // Lấy đường đi có chi phí thấp nhất trong thế hệ này
-        vector<int> currentBestPath = population[0];
-        int currentBestCost = calculateCost(currentBestPath);
-    
-        // So sánh chi phí của đường đi tốt nhất hiện tại với chi phí của đường đi tốt nhất trong thế hệ
-        if (currentBestCost < bestCost) {
-            bestPath = currentBestPath;
-            bestCost = currentBestCost;
-        }
-
         population.resize(POPULATION_SIZE);
 
         // Cắt bớt quần thể để duy trì kích thước quần thể không đổi
@@ -191,7 +181,6 @@ int main() {
 
         // In ra chi phí của đường đi ngắn nhất trong thế hệ hiện tại
         cout << "Generation " << generation + 1 << ", shortest path cost: " << calculateCost(population[0]) << endl;
-        cout << "Best path cost so far: " << bestCost << endl;
     }
 
     auto stop_time = high_resolution_clock::now();
@@ -201,10 +190,11 @@ int main() {
     cout << "\nTime : " << std::fixed << std::setprecision(7) << time << " s" << endl;
 
     // Kết quả là đường đi có chi phí thấp nhất
-    cout << "Best path: ";
-    for (int city : bestPath) {
+    cout << "Shortest path: ";
+    for (int city : population[0]) {
         cout << city << " ";
     }
     cout << endl;
+
     return 0;
 }
