@@ -123,9 +123,6 @@ std::vector<std::vector<int>> generateRandomMatrix(int numCities, int maxDistanc
     return matrix;
 }
 int main() {
-    // Khởi tạo ma trận khoảng cách và các tham số khác
-    // Code để khởi tạo ma trận khoảng cách và numCities ở đây...
-
     // Khởi tạo quần thể ban đầu
     //ifstream file("input.txt");// Dataset file
     //import(file);
