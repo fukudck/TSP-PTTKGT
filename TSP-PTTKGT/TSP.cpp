@@ -5,9 +5,10 @@
 #include <iomanip>
 using namespace std::chrono;
 
-TSP::TSP()
+TSP::TSP(vector<vector<int>>& _graph)
 {
-
+    graph = _graph;
+    cities_num = graph.size();
 }
 
 void TSP::importTSPDataSet(ifstream& file)
@@ -123,15 +124,16 @@ void TSP::GreedyProcess(int start, vector<int>& visited, int& cost)
     visited[start] = 1;
 
     //In ra duong di
-    cout << start + 1 << " ";
+    cout << start << " ";
 
     //kiem tra chi phi thap nhat, bien k duoc xem la thanh pho tiep theo
     for (int k = 0; k < cities_num; k++) {
         if ((graph[start][k] != 0) && (visited[k] == 0)) {
             if (graph[start][k] < path) {
                 path = graph[start][k];
+                u = k; // u la thanh pho co khoang cach gan nhat
             }
-            u = k; // u la thanh pho co khoang cach gan nhat
+            
         }
     }
     if (path != INT_MAX) {
@@ -139,7 +141,7 @@ void TSP::GreedyProcess(int start, vector<int>& visited, int& cost)
     }
     if (u == INT_MAX) {
         u = 0;
-        cout << u + 1;
+        cout << u ;
         cost = cost + graph[start][u];
         return;
     }

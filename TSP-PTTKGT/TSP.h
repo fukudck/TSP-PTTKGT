@@ -8,7 +8,7 @@ public:
 	vector<vector<int>> graph;
 	int cities_num = 0;
 
-	TSP();
+	TSP(vector<vector<int>>& _graph);
 
 	void importTSPDataSet(ifstream& file);
 
