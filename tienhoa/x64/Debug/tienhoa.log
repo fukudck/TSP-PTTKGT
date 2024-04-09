@@ -1,0 +1,3 @@
+﻿  Source1.cpp
+C:\Users\Fukudck\Desktop\tienhoa\tienhoa\Source1.cpp(188,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  tienhoa.vcxproj -> C:\Users\Fukudck\Desktop\tienhoa\x64\Debug\tienhoa.exe
