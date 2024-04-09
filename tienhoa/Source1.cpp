@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -7,7 +7,6 @@
 #include <sstream>
 #include <fstream>
 using namespace std::chrono;
-
 using namespace std;
 
 const int POPULATION_SIZE = 100;
@@ -135,7 +134,7 @@ int main() {
     //file.close();
 
 
-    
+
     int maxDistance = 100; // do dai toi da
     int seed = 10042024;
     vector<std::vector<int>> matrix = generateRandomMatrix(numCities, maxDistance, seed);
@@ -148,6 +147,10 @@ int main() {
     for (int i = 0; i < POPULATION_SIZE; ++i) {
         population.push_back(generateRandomPath());
     }
+
+    int bestCost = INT16_MAX; 
+    vector<int> bestPath(numCities); 
+    vector<int> currentBestPath(numCities);
 
     // Lặp qua các thế hệ
     for (int generation = 0; generation < NUM_GENERATIONS; ++generation) {
@@ -172,6 +175,16 @@ int main() {
         // Sắp xếp quần thể theo chi phí
         sort(population.begin(), population.end(), comparePaths);
 
+        // Lấy đường đi có chi phí thấp nhất trong thế hệ này
+        vector<int> currentBestPath = population[0];
+        int currentBestCost = calculateCost(currentBestPath);
+
+        // So sánh chi phí của đường đi tốt nhất hiện tại với chi phí của đường đi tốt nhất trong thế hệ
+        if (currentBestCost < bestCost) {
+            bestPath = currentBestPath;
+            bestCost = currentBestCost;
+        }
+
         population.resize(POPULATION_SIZE);
 
         // Cắt bớt quần thể để duy trì kích thước quần thể không đổi
@@ -181,6 +194,7 @@ int main() {
 
         // In ra chi phí của đường đi ngắn nhất trong thế hệ hiện tại
         cout << "Generation " << generation + 1 << ", shortest path cost: " << calculateCost(population[0]) << endl;
+        cout << "Best path cost so far: " << bestCost << endl;
     }
 
     auto stop_time = high_resolution_clock::now();
@@ -190,11 +204,10 @@ int main() {
     cout << "\nTime : " << std::fixed << std::setprecision(7) << time << " s" << endl;
 
     // Kết quả là đường đi có chi phí thấp nhất
-    cout << "Shortest path: ";
-    for (int city : population[0]) {
+    cout << "Best path: ";
+    for (int city : bestPath) {
         cout << city << " ";
     }
     cout << endl;
-
     return 0;
 }
