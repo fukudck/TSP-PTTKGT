@@ -10,9 +10,9 @@ using namespace std::chrono;
 using namespace std;
 
 const int POPULATION_SIZE = 100;
-const int NUM_GENERATIONS = 100;
-const double CROSSOVER_RATE = 0.5;
-const double MUTATION_RATE = 0.7;
+const int NUM_GENERATIONS = 200;
+const double CROSSOVER_RATE = 0.6;
+const double MUTATION_RATE = 0.2;
 
 int numCities = 200;
 vector<vector<int>> distances;/* = {
@@ -137,6 +137,9 @@ int main() {
     vector<std::vector<int>> matrix = generateRandomMatrix(numCities, maxDistance, seed);
     distances = matrix;
 
+    int bestCost = INT16_MAX;
+    vector<int> bestPath(numCities);
+    vector<int> currentBestPath(numCities);
 
     auto start_time = high_resolution_clock::now();
 
@@ -144,10 +147,6 @@ int main() {
     for (int i = 0; i < POPULATION_SIZE; ++i) {
         population.push_back(generateRandomPath());
     }
-
-    int bestCost = INT16_MAX; 
-    vector<int> bestPath(numCities); 
-    vector<int> currentBestPath(numCities);
 
     // Lặp qua các thế hệ
     for (int generation = 0; generation < NUM_GENERATIONS; ++generation) {
@@ -190,8 +189,7 @@ int main() {
         }
 
         // In ra chi phí của đường đi ngắn nhất trong thế hệ hiện tại
-        cout << "Generation " << generation + 1 << ", shortest path cost: " << calculateCost(population[0]) << endl;
-        cout << "Best path cost so far: " << bestCost << endl;
+        //cout << "Generation " << generation + 1 << ", shortest path cost: " << calculateCost(population[0]) << endl;
     }
 
     auto stop_time = high_resolution_clock::now();
@@ -205,6 +203,7 @@ int main() {
     for (int city : bestPath) {
         cout << city << " ";
     }
-    cout << endl;
+    cout << bestPath[0] << endl;
+    cout << "Best path cost so far: " << bestCost << endl;
     return 0;
 }
